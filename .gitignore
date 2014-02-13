@@ -10,3 +10,5 @@ autodoc/**
 build/
 doc/
 docs/
+*.iml
+*.idea

@@ -1,7 +1,9 @@
 (defproject control/control "0.4.2-SNAPSHOT" 
   :lein-release {:deploy-via :clojars}
   :dependencies [[org.clojure/clojure "1.4.0"]
+                  [com.jcraft/jsch "0.1.50"]
                  [org.clojure/tools.cli "0.2.1"]]
+  :java-source-paths ["java.src"]
   :author "dennis zhuang(killme2008@gmail.com)"
   :profiles {:dev {:dependencies [[codox "0.5.0"]]}}
   :url "https://github.com/killme2008/clojure-control"

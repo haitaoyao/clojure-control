@@ -1,10 +1,17 @@
 (ns control.core
+  (:import [control ExecuteResult ExecuteResult])
   #^{ :doc "Clojure control core"
      :author " Dennis Zhuang <killme2008@gmail.com>"}
   (:use [clojure.java.io :only [reader]]
         [clojure.java.shell :only [sh]]
         [clojure.string :only [join blank? split]]
-        [clojure.walk :only [walk postwalk]]))
+        [clojure.walk :only [walk postwalk]])
+
+  (:import (com.jcraft.jsch JSch Session)
+           (java.util Properties)
+           (control SSHUtils ExecuteResult)
+           )
+  )
 
 (def ^:dynamic *enable-color* true)
 ;;Error mode,:exit or :exception.
@@ -129,6 +136,15 @@
   []
   (reset! *global-options* {}))
 
+(defn- do-ssh [host user command]
+  (let [^ExecuteResult execute-result (SSHUtils/sshExecute host user command)
+        ]
+    (log-with-tag host "stdout" (.getStdout execute-result))
+    (log-with-tag host "stderr" (.getStderr execute-result))
+    (log-with-tag host "exit" (.getStatus execute-result))
+    )
+  )
+
 (defn ssh
   "Execute commands via ssh:
    (ssh \"date\")
@@ -139,6 +155,7 @@
    :sudo   whether to run commands as root,default is false
    :ssh-options  -- ssh options string
 "
+
   {:arglists '([cmd & opts])}
   [host user cluster cmd & opts]
   (let [m (apply hash-map opts)
@@ -149,11 +166,15 @@
         ssh-options (or (:ssh-options m) (find-client-options host user cluster :ssh-options))]
     (check-valid-options m :sudo :ssh-options :mode :scp-options)
 	(log-with-tag host "ssh" ssh-options cmd)
-	(exec host
-          user
-          (make-cmd-array "ssh"
-                          ssh-options
-                          [(ssh-client host user) cmd]))))
+;	(exec host
+;          user
+;          (make-cmd-array "ssh"
+;                          ssh-options
+;                          [(ssh-client host user) cmd]))
+    (do-ssh user host cmd)
+    ))
+
+
 
 (defn rsync
   "Rsync local files to remote machine's files,for example:
