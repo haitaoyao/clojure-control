@@ -158,6 +158,7 @@
 
   {:arglists '([cmd & opts])}
   [host user cluster cmd & opts]
+  (println cluster)
   (let [m (apply hash-map opts)
         sudo (:sudo m)
         cmd (if sudo
@@ -166,11 +167,6 @@
         ssh-options (or (:ssh-options m) (find-client-options host user cluster :ssh-options))]
     (check-valid-options m :sudo :ssh-options :mode :scp-options)
 	(log-with-tag host "ssh" ssh-options cmd)
-;	(exec host
-;          user
-;          (make-cmd-array "ssh"
-;                          ssh-options
-;                          [(ssh-client host user) cmd]))
     (do-ssh user host cmd)
     ))
 

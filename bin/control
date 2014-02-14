@@ -3,7 +3,7 @@
 #Modified from leiningen:https://raw.github.com/technomancy/leiningen/preview/bin/lein
 #License: Eclipse Public License,same as leiningen and clojure.
 
-export CONTROL_VERSION="0.4.1"
+export CONTROL_VERSION="0.4.2-me"
 
 case $CONTROL_VERSION in
     *SNAPSHOT) SNAPSHOT="YES" ;;
@@ -101,7 +101,7 @@ if [ "$1" = "self-install" ]; then
     echo "Downloading Clojure-Control now..."
     CONTROL_DIR=`dirname "$CONTROL_JAR"`
     mkdir -p "$CONTROL_DIR"
-    CONTROL_URL="https://github.com/killme2008/clojure-control/raw/master/downloads/control-$CONTROL_VERSION-standalone.jar"
+    CONTROL_URL="https://github.com/haitaoyao/clojure-control/raw/master/downloads/control-$CONTROL_VERSION-standalone.jar"
     $HTTP_CLIENT "$CONTROL_JAR" "$CONTROL_URL"
     if [ $? != 0 ]; then
         echo "Failed to download $CONTROL_URL"

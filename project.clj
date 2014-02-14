@@ -1,4 +1,4 @@
-(defproject control/control "0.4.2-SNAPSHOT" 
+(defproject control/control "0.4.2-me" 
   :lein-release {:deploy-via :clojars}
   :dependencies [[org.clojure/clojure "1.4.0"]
                   [com.jcraft/jsch "0.1.50"]
